@@ -2,7 +2,7 @@
 # =============================================================================
 # Minecraft Splitscreen Steam Deck Installer - MODULAR VERSION
 # =============================================================================
-# 
+#
 # This is the new, clean modular entry point for the Minecraft Splitscreen installer.
 # All functionality has been moved to organized modules for better maintainability.
 # Required modules are automatically downloaded as temporary files when the script runs.
@@ -52,7 +52,7 @@ readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$(mktemp -d -t minecraft-modules-XXXXXX)"
 
 # GitHub repository information (modify these URLs to match your actual repository)
-readonly REPO_BASE_URL="https://raw.githubusercontent.com/FlyingEwok/MinecraftSplitscreenSteamdeck/main/modules"
+readonly REPO_BASE_URL="https://raw.githubusercontent.com/mitch000001/MinecraftSplitscreenSteamdeck/main/modules"
 
 # List of required module files
 readonly MODULE_FILES=(
@@ -74,22 +74,22 @@ download_modules() {
     echo "🔄 Downloading required modules to temporary directory..."
     echo "📁 Temporary modules directory: $MODULES_DIR"
     echo "🌐 Repository URL: $REPO_BASE_URL"
-    
+
     # Temporarily disable strict error handling for downloads
     set +e
-    
+
     # The temporary directory is already created by mktemp
     local downloaded_count=0
     local failed_count=0
-    
+
     # Download each required module
     for module in "${MODULE_FILES[@]}"; do
         local module_path="$MODULES_DIR/$module"
         local module_url="$REPO_BASE_URL/$module"
-        
+
         echo "⬇️  Downloading module: $module"
         echo "    URL: $module_url"
-        
+
         # Download the module file
         if command -v curl >/dev/null 2>&1; then
             curl_output=$(curl -fsSL "$module_url" -o "$module_path" 2>&1)
@@ -126,10 +126,10 @@ download_modules() {
             exit 1
         fi
     done
-    
+
     # Re-enable strict error handling
     set -euo pipefail
-    
+
     if [[ $failed_count -gt 0 ]]; then
         echo "❌ Failed to download $failed_count module(s)"
         echo "ℹ️  This might be because:"
@@ -144,7 +144,7 @@ download_modules() {
         echo "🌐 Or check if the repository exists at: https://github.com/FlyingEwok/MinecraftSplitscreenSteamdeck"
         exit 1
     fi
-    
+
     echo "✅ Downloaded $downloaded_count module(s) to temporary directory"
     echo "ℹ️  Modules will be automatically cleaned up when script completes"
 }
