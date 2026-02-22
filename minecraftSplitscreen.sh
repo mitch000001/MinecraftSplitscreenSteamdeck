@@ -37,8 +37,16 @@ detectLauncher() {
         export LAUNCHER_NAME="PollyMC"
         return 0
     fi
-    
-    echo "[Error] PollyMC not found at $HOME/.local/share/PollyMC/" >&2
+
+    # Check if PrismLauncher is available
+    if [ -f "$HOME/.local/share/PrismLauncher/PrismLauncher.AppImage" ] && [ -x "$HOME/.local/share/PrismLauncher/PrismLauncher.AppImage" ]; then
+        export LAUNCHER_DIR="$HOME/.local/share/PrismLauncher"
+        export LAUNCHER_EXEC="$HOME/.local/share/PrismLauncher/PrismLauncher.AppImage"
+        export LAUNCHER_NAME="PrismLauncher"
+        return 0
+    fi
+
+    echo "[Error] Neither PollyMC nor PrismLauncher not found at $HOME/.local/share/PollyMC/ or $HOME/.local/share/PrismLauncher/" >&2
     echo "[Error] Please run the Minecraft Splitscreen installer to set up PollyMC" >&2
     return 1
 }
