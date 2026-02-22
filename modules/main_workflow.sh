@@ -2,7 +2,7 @@
 # =============================================================================
 # Minecraft Splitscreen Steam Deck Installer - Main Workflow Module
 # =============================================================================
-# 
+#
 # This module contains the main orchestration logic for the complete splitscreen
 # installation process. It coordinates all the other modules and provides
 # comprehensive status reporting and user guidance.
@@ -42,11 +42,11 @@ main() {
     print_info "Advanced installation system with dual-launcher optimization"
     print_info "Strategy: PrismLauncher CLI automation → PollyMC gameplay → Smart cleanup"
     echo ""
-    
+
     # =============================================================================
     # WORKSPACE INITIALIZATION PHASE
     # =============================================================================
-    
+
     # WORKSPACE SETUP: Create and navigate to working directory
     # All temporary files, downloads, and initial setup happen in TARGET_DIR
     # This provides a clean, isolated environment for the installation process
@@ -54,32 +54,32 @@ main() {
     mkdir -p "$TARGET_DIR"
     cd "$TARGET_DIR" || exit 1
     print_success "✅ Workspace initialized successfully"
-    
+
     # =============================================================================
     # CORE SYSTEM REQUIREMENTS VALIDATION
     # =============================================================================
-    
+
     download_prism_launcher        # Download PrismLauncher AppImage for CLI automation
     if ! verify_prism_cli; then    # Test CLI functionality (non-fatal if it fails)
         print_info "PrismLauncher CLI unavailable - will use manual instance creation"
     fi
-    
+
     # =============================================================================
     # VERSION DETECTION AND CONFIGURATION
     # =============================================================================
-    
+
     get_minecraft_version         # Determine target Minecraft version (user choice or latest)
     detect_java                   # Automatically detect, install, and configure correct Java version for selected Minecraft version
     get_fabric_version           # Get compatible Fabric loader version from API
     get_lwjgl_version            # Detect appropriate LWJGL version for Minecraft version
-    
+
     # =============================================================================
     # OFFLINE ACCOUNTS CONFIGURATION
     # =============================================================================
-    
+
     print_progress "Setting up offline accounts for splitscreen gameplay..."
     print_info "Downloading pre-configured offline accounts for Player 1-4"
-    
+
     # OFFLINE ACCOUNTS DOWNLOAD: Get splitscreen player account configurations
     # These accounts enable splitscreen without requiring multiple Microsoft accounts
     # Each player (P1, P2, P3, P4) gets a separate offline profile for identification
@@ -94,44 +94,56 @@ main() {
         print_success "✅ Offline splitscreen accounts configured successfully"
         print_info "   → P1, P2, P3, P4 player accounts ready for offline gameplay"
     fi
-    
+
     # =============================================================================
     # MOD ECOSYSTEM SETUP PHASE
     # =============================================================================
-    
+
     check_mod_compatibility       # Query Modrinth/CurseForge APIs for compatible versions
     select_user_mods             # Interactive mod selection interface with categories
-    
+
     # =============================================================================
     # MINECRAFT INSTANCE CREATION PHASE
     # =============================================================================
-    
-    
+
+
     create_instances             # Create 4 splitscreen instances using PrismLauncher CLI with comprehensive fallbacks
-    
+
     # =============================================================================
     # LAUNCHER OPTIMIZATION PHASE: Advanced launcher configuration
     # =============================================================================
-    
+
     setup_pollymc               # Download PollyMC, migrate instances, verify, cleanup PrismLauncher
-    
+
+    print_progress "Setting up launcher script for PrismLauncher..."
+
+    # LAUNCHER SCRIPT DOWNLOAD: Get the splitscreen launcher script from GitHub
+    # This script handles controller detection and multi-instance launching
+    if wget -O "$HOME/.local/share/PrismLauncher/minecraftSplitscreen.sh" \
+        "https://raw.githubusercontent.com/mitch000001/MinecraftSplitscreenSteamdeck/main/minecraftSplitscreen.sh"; then
+        chmod +x "$HOME/.local/share/PrismLauncher/minecraftSplitscreen.sh"
+        print_success "Launcher script configured and copied to PrismLauncher"
+    else
+        print_warning "Failed to download launcher script"
+    fi
+
     # =============================================================================
     # SYSTEM INTEGRATION PHASE: Optional platform integration
     # =============================================================================
-    
+
     setup_steam_integration     # Add splitscreen launcher to Steam library (optional)
     create_desktop_launcher     # Create native desktop launcher and app menu entry (optional)
-    
+
     # =============================================================================
     # INSTALLATION COMPLETION AND STATUS REPORTING
     # =============================================================================
-    
+
     print_header "🎉 INSTALLATION ANALYSIS AND COMPLETION REPORT"
-    
+
     # =============================================================================
     # MISSING MODS ANALYSIS: Report any compatibility issues
     # =============================================================================
-    
+
     # MISSING MODS REPORT: Alert user to any mods that couldn't be installed
     # This helps users understand if specific functionality might be unavailable
     # Common causes: no Fabric version available, API changes, temporary download issues
@@ -154,21 +166,21 @@ main() {
         print_info "These mods can be installed manually later if compatible versions become available"
         print_info "The splitscreen functionality will work without these optional mods"
     fi
-    
+
     # =============================================================================
     # COMPREHENSIVE INSTALLATION SUCCESS REPORT
     # =============================================================================
-    
+
     echo ""
     echo "=========================================="
     echo "🎮 MINECRAFT SPLITSCREEN INSTALLATION COMPLETE! 🎮"
     echo "=========================================="
     echo ""
-    
+
     # =============================================================================
     # LAUNCHER STRATEGY SUCCESS ANALYSIS
     # =============================================================================
-    
+
     # LAUNCHER STRATEGY REPORT: Explain which approach was successful and the benefits
     # The dual-launcher approach provides the best of both worlds when successful
     if [[ "$USE_POLLYMC" == true ]]; then
@@ -203,11 +215,11 @@ main() {
         echo "✅ Primary launcher: PrismLauncher (proven reliability)"
         echo "⚠️  Note: PollyMC optimization unavailable, but full functionality preserved"
     fi
-    
+
     # =============================================================================
     # TECHNICAL ACHIEVEMENT SUMMARY
     # =============================================================================
-    
+
     # INSTALLATION COMPONENTS SUMMARY: List all successfully completed setup elements
     echo ""
     echo "🏆 TECHNICAL ACHIEVEMENTS COMPLETED:"
@@ -223,18 +235,18 @@ main() {
     echo "✅ Instance verification and launcher registration completed"
     echo "✅ Comprehensive automatic dependency resolution system"
     echo ""
-    
+
     # =============================================================================
     # USER GUIDANCE AND LAUNCH INSTRUCTIONS
     # =============================================================================
-    
+
     echo "🚀 READY TO PLAY SPLITSCREEN MINECRAFT!"
     echo ""
-    
+
     # LAUNCH METHODS: Comprehensive guide to starting splitscreen Minecraft
     echo "🎮 HOW TO LAUNCH SPLITSCREEN MINECRAFT:"
     echo ""
-    
+
     # PRIMARY LAUNCH METHOD: Direct script execution
     echo "1. 🔧 DIRECT LAUNCH (Recommended):"
     if [[ "$USE_POLLYMC" == true ]]; then
@@ -245,26 +257,26 @@ main() {
         echo "   Description: PrismLauncher-based splitscreen with automatic controller detection"
     fi
     echo ""
-    
+
     # ALTERNATIVE LAUNCH METHODS: Other integration options
     echo "2. 🖥️  DESKTOP LAUNCHER:"
     echo "   Method: Double-click desktop shortcut or search 'Minecraft Splitscreen' in app menu"
     echo "   Availability: $(if [[ -f "$HOME/Desktop/MinecraftSplitscreen.desktop" ]]; then echo "✅ Configured"; else echo "❌ Not configured"; fi)"
     echo ""
-    
+
     echo "3. 🎯 STEAM INTEGRATION:"
     echo "   Method: Launch from Steam library or Big Picture mode"
     echo "   Benefits: Steam Deck Game Mode integration, Steam Input support"
     echo "   Availability: $(if grep -q "PollyMC\|PrismLauncher" ~/.steam/steam/userdata/*/config/shortcuts.vdf 2>/dev/null; then echo "✅ Configured"; else echo "❌ Not configured"; fi)"
     echo ""
-    
+
     # =============================================================================
     # SYSTEM REQUIREMENTS AND TECHNICAL DETAILS
     # =============================================================================
-    
+
     echo "⚙️  SYSTEM CONFIGURATION DETAILS:"
     echo ""
-    
+
     # LAUNCHER DETAILS: Technical information about the setup
     if [[ "$USE_POLLYMC" == true ]]; then
         echo "🛠️  LAUNCHER CONFIGURATION:"
@@ -279,7 +291,7 @@ main() {
         echo "   • Note: PollyMC optimization unavailable, but fully functional"
     fi
     echo ""
-    
+
     # MINECRAFT ACCOUNT REQUIREMENTS: Important user information
     echo "💳 ACCOUNT REQUIREMENTS:"
     if [[ "$USE_POLLYMC" == true ]]; then
@@ -289,12 +301,12 @@ main() {
         echo "   • Splitscreen: Uses offline accounts (P1, P2, P3, P4) after initial login"
     else
         echo "   • Microsoft account: Required for launcher access"
-        echo "   • Account type: PAID Minecraft Java Edition required" 
+        echo "   • Account type: PAID Minecraft Java Edition required"
         echo "   • Note: PrismLauncher may prompt for periodic authentication"
         echo "   • Splitscreen: Uses offline accounts (P1, P2, P3, P4) after login"
     fi
     echo ""
-    
+
     # CONTROLLER INFORMATION: Hardware requirements and tips
     echo "🎮 CONTROLLER CONFIGURATION:"
     echo "   • Supported: Xbox, PlayStation, generic USB/Bluetooth controllers"
@@ -302,11 +314,11 @@ main() {
     echo "   • Steam Deck: Built-in controls + external controllers"
     echo "   • Recommendation: Use wired controllers for best performance"
     echo ""
-    
+
     # =============================================================================
     # INSTALLATION LOCATION SUMMARY
     # =============================================================================
-    
+
     echo "📁 INSTALLATION LOCATIONS:"
     if [[ "$USE_POLLYMC" == true ]]; then
         echo "   • Primary installation: $HOME/.local/share/PollyMC/"
@@ -323,11 +335,11 @@ main() {
         echo "   • Account configuration: $TARGET_DIR/accounts.json"
     fi
     echo ""
-    
+
     # =============================================================================
     # ADVANCED TECHNICAL FEATURE SUMMARY
     # =============================================================================
-    
+
     echo "🔧 ADVANCED FEATURES IMPLEMENTED:"
     echo "   • Complete Fabric dependency chain with proper version matching"
     echo "   • API-based mod compatibility verification (Modrinth + CurseForge)"
@@ -342,11 +354,11 @@ main() {
     echo "   • Cross-platform Linux compatibility (Steam Deck + Desktop)"
     echo "   • Professional Steam and desktop environment integration"
     echo ""
-    
+
     # =============================================================================
     # FINAL SUCCESS MESSAGE AND NEXT STEPS
     # =============================================================================
-    
+
     # Display summary of any optional dependencies that couldn't be installed
     local missing_summary_count=0
     if [[ ${#MISSING_MODS[@]} -gt 0 ]]; then
@@ -365,7 +377,7 @@ main() {
         echo "   The core splitscreen functionality will work perfectly without them."
         echo ""
     fi
-    
+
     echo "🎉 INSTALLATION COMPLETE - ENJOY SPLITSCREEN MINECRAFT! 🎉"
     echo ""
     echo "Next steps:"
