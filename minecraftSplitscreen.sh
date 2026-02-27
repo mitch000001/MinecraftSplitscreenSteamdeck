@@ -236,6 +236,9 @@ getControllerCount() {
     # If Steam is running, halve the count (rounding up) to account for Steam Input duplicates
     if [ "$steam_running" -eq 1 ]; then
         count=$(( (count + 1) / 2 ))
+        # Remove the steamdeck as controller if external one is attached
+        # TODO: check for steamdeck and/or give the user the choice.
+        [ "$count" -gt 1 ] && count=$(( count -1 ))
     fi
     # Clamp the count between 1 and 4
     [ "$count" -gt 4 ] && count=4
