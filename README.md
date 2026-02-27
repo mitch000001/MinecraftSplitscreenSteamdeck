@@ -85,13 +85,13 @@ This hybrid approach ensures reliable automated installation while providing the
 
 ## Installation
 1. **Download and run the installer:**
-   - You can get the latest installer script from the [Releases section](https://github.com/FlyingEwok/MinecraftSplitscreenSteamdeck/releases) (recommended for stable versions), or use the latest development version with:
+   - You can get the latest installer script from the [Releases section](https://github.com/mitch000001/MinecraftSplitscreenSteamdeck/releases) (recommended for stable versions), or use the latest development version with:
    ```sh
-   wget https://raw.githubusercontent.com/FlyingEwok/MinecraftSplitscreenSteamdeck/main/install-minecraft-splitscreen.sh
+   wget https://raw.githubusercontent.com/mitch000001/MinecraftSplitscreenSteamdeck/main/install-minecraft-splitscreen.sh
    chmod +x install-minecraft-splitscreen.sh
    ./install-minecraft-splitscreen.sh
    ```
-   
+
    **Note:** The installer will automatically detect which Java version you need based on your selected Minecraft version and install it if not present. No manual Java setup required!
 
 2. **Install Python 3 (optional)**
@@ -115,7 +115,7 @@ This hybrid approach ensures reliable automated installation while providing the
      - Handle mod conflicts and suggest alternatives when needed
      - Show progress for each mod download with success/failure status
      - Report any missing mods at the end if compatible versions aren't found
-   - **Steam integration (optional):** 
+   - **Steam integration (optional):**
      - Choose "y" to add a shortcut to Steam for easy access from Game Mode on Steam Deck
      - Choose "n" if you prefer to launch manually or don't use Steam
    - **Desktop launcher (optional):**
@@ -170,7 +170,7 @@ The launcher script (`minecraftSplitscreen.sh`) will auto-update itself when a n
 To update your Minecraft version or mod configuration:
 1. Download the latest installer:
    ```sh
-   wget https://raw.githubusercontent.com/FlyingEwok/MinecraftSplitscreenSteamdeck/main/install-minecraft-splitscreen.sh
+   wget https://raw.githubusercontent.com/mitch000001/MinecraftSplitscreenSteamdeck/main/install-minecraft-splitscreen.sh
    chmod +x install-minecraft-splitscreen.sh
    ```
 2. Run the installer:
@@ -220,4 +220,4 @@ To update your Minecraft version or mod configuration:
 
 
 ---
-For more details, see the comments in the scripts or open an issue on the [GitHub repo](https://github.com/FlyingEwok/MinecraftSplitscreenSteamdeck).
+For more details, see the comments in the scripts or open an issue on the [GitHub repo](https://github.com/mitch000001/MinecraftSplitscreenSteamdeck).

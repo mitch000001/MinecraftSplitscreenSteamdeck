@@ -83,7 +83,7 @@ main() {
     # OFFLINE ACCOUNTS DOWNLOAD: Get splitscreen player account configurations
     # These accounts enable splitscreen without requiring multiple Microsoft accounts
     # Each player (P1, P2, P3, P4) gets a separate offline profile for identification
-    if ! wget -O accounts.json "https://raw.githubusercontent.com/FlyingEwok/MinecraftSplitscreenSteamdeck/main/accounts.json"; then
+    if ! wget -O accounts.json "$REPO_DOWNLOAD_URL/$REPO_GIT_REF/accounts.json"; then
         print_warning "⚠️  Failed to download accounts.json from repository"
         print_info "   → Attempting to use local copy if available..."
         if [[ ! -f "accounts.json" ]]; then
@@ -120,7 +120,7 @@ main() {
     # LAUNCHER SCRIPT DOWNLOAD: Get the splitscreen launcher script from GitHub
     # This script handles controller detection and multi-instance launching
     if wget -O "$HOME/.local/share/PrismLauncher/minecraftSplitscreen.sh" \
-        "https://raw.githubusercontent.com/mitch000001/MinecraftSplitscreenSteamdeck/main/minecraftSplitscreen.sh"; then
+        "$REPO_DOWNLOAD_URL/$REPO_GIT_REF/minecraftSplitscreen.sh"; then
         chmod +x "$HOME/.local/share/PrismLauncher/minecraftSplitscreen.sh"
         print_success "Launcher script configured and copied to PrismLauncher"
     else
@@ -387,6 +387,6 @@ main() {
     echo "4. Each player gets their own screen and can play independently"
     echo ""
     echo "For troubleshooting or updates, visit:"
-    echo "https://github.com/FlyingEwok/MinecraftSplitscreenSteamdeck"
+    echo "$REPO_URL"
     echo "=========================================="
 }

@@ -52,7 +52,9 @@ readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 MODULES_DIR="$(mktemp -d -t minecraft-modules-XXXXXX)"
 
 # GitHub repository information (modify these URLs to match your actual repository)
-readonly REPO_BASE_URL="https://raw.githubusercontent.com/mitch000001/MinecraftSplitscreenSteamdeck/main/modules"
+readonly REPO_URL="https://github.com/mitch000001/MinecraftSplitscreenSteamdeck"
+readonly REPO_DOWNLOAD_URL="https://raw.githubusercontent.com/mitch000001/MinecraftSplitscreenSteamdeck"
+readonly REPO_GIT_REF="main"
 
 # List of required module files
 readonly MODULE_FILES=(
@@ -73,7 +75,7 @@ readonly MODULE_FILES=(
 download_modules() {
     echo "🔄 Downloading required modules to temporary directory..."
     echo "📁 Temporary modules directory: $MODULES_DIR"
-    echo "🌐 Repository URL: $REPO_BASE_URL"
+    echo "🌐 Repository URL: $REPO_URL"
 
     # Temporarily disable strict error handling for downloads
     set +e
@@ -81,11 +83,11 @@ download_modules() {
     # The temporary directory is already created by mktemp
     local downloaded_count=0
     local failed_count=0
-
+    local repo_module_download_url="$REPO_DOWNLOAD_URL/$REPO_GIT_REF/modules"
     # Download each required module
     for module in "${MODULE_FILES[@]}"; do
         local module_path="$MODULES_DIR/$module"
-        local module_url="$REPO_BASE_URL/$module"
+        local module_url="$repo_module_download_url/$module"
 
         echo "⬇️  Downloading module: $module"
         echo "    URL: $module_url"
@@ -120,7 +122,7 @@ download_modules() {
         else
             echo "❌ Error: Neither curl nor wget is available"
             echo "Please install curl or wget to download modules automatically"
-            echo "Or manually download all modules from: $REPO_BASE_URL"
+            echo "Or manually download all modules from: $REPO_DOWNLOAD_URL/$REPO_GIT_REF/modules"
             # Re-enable strict error handling before exiting
             set -euo pipefail
             exit 1
@@ -141,7 +143,7 @@ download_modules() {
         echo "    mkdir -p '$SCRIPT_DIR/modules'"
         echo "    # Then copy all .sh module files to that directory"
         echo ""
-        echo "🌐 Or check if the repository exists at: https://github.com/FlyingEwok/MinecraftSplitscreenSteamdeck"
+        echo "🌐 Or check if the repository exists at: $REPO_URL"
         exit 1
     fi
 
@@ -165,7 +167,7 @@ for module in "${MODULE_FILES[@]}"; do
     if [[ ! -f "$MODULES_DIR/$module" ]]; then
         echo "❌ Error: Required module missing: $module"
         echo "Please check your internet connection or download manually from:"
-        echo "$REPO_BASE_URL/$module"
+        echo "$REPO_DOWNLOAD_URL/$REPO_GIT_REF/modules/$module"
         exit 1
     fi
 done

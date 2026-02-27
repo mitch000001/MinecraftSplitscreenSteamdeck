@@ -2,6 +2,10 @@
 
 set +e  # Allow script to continue on errors for robustness
 
+# GitHub repository information (modify these URLs to match your actual repository)
+readonly REPO_DOWNLOAD_URL="https://raw.githubusercontent.com/mitch000001/MinecraftSplitscreenSteamdeck"
+readonly REPO_GIT_REF="main"
+
 # =============================
 # Minecraft Splitscreen Launcher for Steam Deck & Linux
 # =============================
@@ -30,7 +34,7 @@ export target=/tmp
 # Detects PollyMC launcher for splitscreen gameplay.
 # Returns launcher paths and executable info.
 detectLauncher() {
-    # Check if PollyMC is available
+    # Check if Pollrepo_urlyMC is available
     if [ -f "$HOME/.local/share/PollyMC/PollyMC-Linux-x86_64.AppImage" ] && [ -x "$HOME/.local/share/PollyMC/PollyMC-Linux-x86_64.AppImage" ]; then
         export LAUNCHER_DIR="$HOME/.local/share/PollyMC"
         export LAUNCHER_EXEC="$HOME/.local/share/PollyMC/PollyMC-Linux-x86_64.AppImage"
@@ -64,7 +68,7 @@ echo "[Info] Using $LAUNCHER_NAME for splitscreen gameplay"
 # =============================
 # Checks if this script is the latest version from GitHub. If not, downloads and replaces itself.
 selfUpdate() {
-    local repo_url="https://raw.githubusercontent.com/FlyingEwok/MinecraftSplitscreenSteamdeck/main/minecraftSplitscreen.sh"
+    local repo_url="$REPO_DOWNLOAD_URL/$REPO_GIT_REF/minecraftSplitscreen.sh"
     local tmpfile
     tmpfile=$(mktemp)
     local script_path
