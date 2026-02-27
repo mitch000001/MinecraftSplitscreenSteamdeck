@@ -223,6 +223,23 @@ declare -a MODS=(
     "Sodium Extras|modrinth|vqqx0QiE"
     "Sodium Options API|modrinth|Es5v4eyq"
     "Splitscreen Support|modrinth|yJgqfSDR"
+    "AppleSkin|modrinth|EsAfCjCV"
+    "BetterF3|modrinth|8shC1gFX"
+    "Concurrent Chunk Management Engine|modrinth|VSNURh3q"
+    "Continuity|modrinth|1IjD5062"
+    "Durability Tooltip|modrinth|smUP7V3r"
+    "EntityCulling|modrinth|NNAgCjsB"
+    "Fabric API|modrinth|P7dR8mSH"
+    "FerriteCore|modrinth|uXXizFIs"
+    "ImmediatelyFast|modrinth|5ZwdcRci"
+    "Iris|modrinth|YL57xq9U"
+    "Jade|modrinth|nvQzSEkH"
+    "Krypton|modrinth|fQEb0iXm"
+    "Lighty|modrinth|yjvKidNM"
+    "Lithium|modrinth|gvQqBUqZ"
+    "MiniHUD|modrinth|UMxybHE8"
+    "Sound Physics Remastered|modrinth|qyVF9oeo"
+    "Xaero's Minimap|modrinth|1bokaNcj"
 )
 
 # Runtime mod tracking arrays (populated during execution)
